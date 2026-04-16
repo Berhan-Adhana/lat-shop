@@ -1,0 +1,144 @@
+/* src/components/layout/Footer.module.css */
+
+.footer {
+  background: #1a1209;
+  color: #faefd9;
+  font-family: system-ui, sans-serif;
+  margin-top: auto;
+}
+.footerInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px 24px 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 640px) {
+  .footerInner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .footerInner {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+.footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-family: "Georgia", serif;
+}
+@media (max-width: 640px) {
+  .footerLogo {
+    justify-content: center;
+  }
+}
+.logoMark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4832a, #b86820);
+  color: #fdf8f0;
+  font-size: 20px;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logoText {
+  font-size: 20px;
+  color: #fdf8f0;
+  letter-spacing: 1px;
+}
+.footerTagline {
+  font-size: 14px;
+  color: #ecc07f;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.socialLinks {
+  display: flex;
+  gap: 10px;
+}
+.socialLink {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #3d2b14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ecc07f;
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.socialLink:hover {
+  border-color: #d4832a;
+  color: #d4832a;
+}
+.footerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footerCol h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #d4832a;
+  margin-bottom: 4px;
+  font-family: "Georgia", serif;
+}
+.footerCol a {
+  font-size: 14px;
+  color: #c4a882;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footerCol a:hover {
+  color: #fdf8f0;
+}
+.footerBottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  border-top: 1px solid #2d1f0e;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footerBottom p {
+  font-size: 13px;
+  color: #7a3f1d;
+}
+.footerLegal {
+  display: flex;
+  gap: 20px;
+}
+.footerLegal a {
+  font-size: 13px;
+  color: #7a3f1d;
+  text-decoration: none;
+}
+.footerLegal a:hover {
+  color: #ecc07f;
+}
+.paymentIcons {
+  display: flex;
+  gap: 6px;
+}
+.paymentBadge {
+  padding: 3px 8px;
+  border: 1px solid #3d2b14;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #7a3f1d;
+  letter-spacing: 0.3px;
+}

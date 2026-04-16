@@ -1,0 +1,95 @@
+/* src/app/(shop)/shop/shop.module.css */
+
+.shopPage {
+  min-height: 70vh;
+  background: #fdf8f0;
+  font-family: system-ui, sans-serif;
+}
+.shopInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+.shopHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f4dbb0;
+}
+.shopHeader h1 {
+  font-size: 28px;
+  color: #1a1209;
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+}
+.productCount { font-size: 14px; color: #7a3f1d; }
+
+.shopLayout { display: flex; gap: 32px; }
+.sidebar { width: 220px; flex-shrink: 0; display: none; }
+@media (min-width: 900px) { .sidebar { display: block; } }
+.mainContent { flex: 1; min-width: 0; }
+
+.sortBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.showing { font-size: 13px; color: #7a3f1d; }
+.sortSelect {
+  padding: 8px 12px;
+  border: 1.5px solid #ecc07f;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  color: #3d2b14;
+  cursor: pointer;
+  outline: none;
+}
+.sortSelect:focus { border-color: #d4832a; }
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (min-width: 640px) { .productsGrid { grid-template-columns: repeat(3, 1fr); } }
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 0;
+  color: #7a3f1d;
+  text-align: center;
+}
+.emptyState a { color: #d4832a; text-decoration: none; }
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 40px;
+}
+.pageBtn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #ecc07f;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #3d2b14;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.pageBtn:hover { border-color: #d4832a; color: #d4832a; }
+.pageBtnActive {
+  background: #d4832a;
+  border-color: #d4832a;
+  color: #fff;
+}

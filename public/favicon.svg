@@ -1,0 +1,20 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#1c0f05"/>
+  <!-- Cowrie shell body -->
+  <ellipse cx="16" cy="16" rx="6" ry="9" fill="#d4832a" fill-opacity="0.2" stroke="#d4832a" stroke-width="1"/>
+  <!-- Shell spine -->
+  <path d="M16 8 Q19 12 19 16 Q19 20 16 24 Q13 20 13 16 Q13 12 16 8Z" fill="#d4832a" opacity="0.6"/>
+  <!-- Shell teeth -->
+  <path d="M12.5 21.5 L14.5 23 L16 22.2 L17.5 23 L19.5 21.5" stroke="#d4832a" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <!-- 4 radiating lines -->
+  <line x1="16" y1="1" x2="16" y2="6"  stroke="#d4832a" stroke-width="1" opacity="0.7"/>
+  <line x1="16" y1="26" x2="16" y2="31" stroke="#d4832a" stroke-width="1" opacity="0.7"/>
+  <line x1="1"  y1="16" x2="6"  y2="16" stroke="#d4832a" stroke-width="1" opacity="0.7"/>
+  <line x1="26" y1="16" x2="31" y2="16" stroke="#d4832a" stroke-width="1" opacity="0.7"/>
+  <!-- Diamond tips -->
+  <polygon points="16,1 17.5,4 16,6 14.5,4"   fill="#d4832a"/>
+  <polygon points="16,31 17.5,28 16,26 14.5,28" fill="#d4832a"/>
+  <polygon points="1,16 4,14.5 6,16 4,17.5"   fill="#d4832a"/>
+  <polygon points="31,16 28,14.5 26,16 28,17.5" fill="#d4832a"/>
+</svg>

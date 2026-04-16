@@ -1,0 +1,65 @@
+/* src/app/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-50:  #fdf8f0;
+  --brand-100: #faefd9;
+  --brand-200: #f4dbb0;
+  --brand-300: #ecc07f;
+  --brand-400: #e29e4c;
+  --brand-500: #d4832a;
+  --brand-600: #b86820;
+  --brand-700: #964f1c;
+  --brand-800: #7a3f1d;
+  --brand-900: #65351b;
+  --dark-900:  #1a1209;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--brand-50);
+  color: var(--dark-900);
+  font-family: var(--font-lora), Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--brand-50); }
+::-webkit-scrollbar-thumb {
+  background: var(--brand-300);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--brand-500); }
+
+/* Selection */
+::selection {
+  background: var(--brand-200);
+  color: var(--dark-900);
+}

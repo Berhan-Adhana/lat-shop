@@ -1,0 +1,109 @@
+/* src/app/(shop)/checkout/checkout.module.css */
+
+.page { min-height: 100vh; background: #fdf8f0; font-family: system-ui, sans-serif; }
+.inner { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+.header { margin-bottom: 36px; }
+.header h1 { font-size: 28px; color: #1a1209; font-family: 'Georgia', serif; font-weight: 400; margin-bottom: 4px; }
+.header p { font-size: 14px; color: #7a3f1d; }
+
+.layout { display: flex; flex-direction: column; gap: 32px; }
+@media (min-width: 900px) { .layout { flex-direction: row; align-items: flex-start; } }
+
+/* ── LEFT: Form ── */
+.formSide { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+.section { background: #fff; border: 1px solid #f4dbb0; border-radius: 12px; padding: 24px; }
+.sectionTitle {
+  font-size: 16px; font-weight: 600; color: #1a1209; margin-bottom: 18px;
+  padding-bottom: 12px; border-bottom: 1px solid #f4dbb0;
+  display: flex; align-items: center; gap: 8px;
+}
+.sectionNum {
+  width: 24px; height: 24px; border-radius: 50%; background: #d4832a;
+  color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.fieldGrid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 480px) { .fieldGrid { grid-template-columns: 1fr 1fr; } }
+.fieldFull { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 600; color: #3d2b14; letter-spacing: 0.5px; text-transform: uppercase; }
+.field input, .field select {
+  padding: 11px 14px; border: 1.5px solid #ecc07f; border-radius: 6px;
+  font-size: 14px; color: #1a1209; background: #fff; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s; font-family: system-ui, sans-serif;
+}
+.field input:focus, .field select:focus { border-color: #d4832a; box-shadow: 0 0 0 3px rgba(212,131,42,0.12); }
+.field input::placeholder { color: #c4a882; }
+
+/* Coupon */
+.couponRow { display: flex; gap: 10px; }
+.couponInput {
+  flex: 1; padding: 11px 14px; border: 1.5px solid #ecc07f; border-radius: 6px;
+  font-size: 14px; color: #1a1209; outline: none; font-family: system-ui, sans-serif;
+  transition: border-color 0.2s; text-transform: uppercase; letter-spacing: 1px;
+}
+.couponInput:focus { border-color: #d4832a; }
+.couponBtn {
+  padding: 11px 20px; background: #1a1209; color: #fdf8f0; border: none;
+  border-radius: 6px; font-size: 14px; cursor: pointer; font-family: system-ui, sans-serif;
+  transition: background 0.2s; white-space: nowrap;
+}
+.couponBtn:hover { background: #3d2b14; }
+.couponBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.couponSuccess { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; color: #22c55e; }
+.couponError { margin-top: 8px; font-size: 13px; color: #dc2626; }
+
+/* Payment tabs */
+.paymentTabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.payTab {
+  flex: 1; padding: 12px; border: 1.5px solid #ecc07f; border-radius: 8px;
+  background: none; cursor: pointer; font-size: 14px; color: #3d2b14;
+  font-family: system-ui, sans-serif; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.payTab:hover { border-color: #d4832a; }
+.payTabActive { border-color: #d4832a; background: #faefd9; color: #d4832a; font-weight: 600; }
+
+.stripeForm { display: flex; flex-direction: column; gap: 14px; }
+.cardNote { font-size: 13px; color: #7a3f1d; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+
+.placeBtn {
+  width: 100%; padding: 15px; background: linear-gradient(135deg, #d4832a, #b86820);
+  color: #fdf8f0; border: none; border-radius: 8px; font-size: 17px;
+  font-family: 'Georgia', serif; letter-spacing: 0.5px; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s; margin-top: 8px;
+}
+.placeBtn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+.placeBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.placeBtnLoading { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(253,248,240,0.3); border-top-color: #fdf8f0; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.secureNote { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #b86820; margin-top: 10px; }
+
+/* ── RIGHT: Order Summary ── */
+.summarySide { width: 100%; }
+@media (min-width: 900px) { .summarySide { width: 360px; flex-shrink: 0; position: sticky; top: 88px; } }
+
+.summaryBox { background: #fff; border: 1px solid #f4dbb0; border-radius: 12px; overflow: hidden; }
+.summaryHeader { padding: 18px 20px; background: #fdf8f0; border-bottom: 1px solid #f4dbb0; }
+.summaryHeader h2 { font-size: 15px; font-weight: 600; color: #1a1209; }
+.summaryItems { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; max-height: 280px; overflow-y: auto; }
+.summaryItem { display: flex; gap: 12px; align-items: center; }
+.itemThumb { width: 52px; height: 52px; border-radius: 6px; background: #faefd9; overflow: hidden; position: relative; flex-shrink: 0; border: 1px solid #f4dbb0; }
+.itemInfo { flex: 1; min-width: 0; }
+.itemName { font-size: 13px; color: #1a1209; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.itemQty { font-size: 12px; color: #7a3f1d; margin-top: 2px; }
+.itemPrice { font-size: 14px; color: #d4832a; font-family: 'Georgia', serif; font-weight: 600; flex-shrink: 0; }
+
+.summaryTotals { padding: 16px 20px; border-top: 1px solid #f4dbb0; display: flex; flex-direction: column; gap: 10px; }
+.totalRow { display: flex; justify-content: space-between; font-size: 14px; color: #3d2b14; }
+.totalRow span:last-child { font-weight: 500; }
+.discountRow { color: #22c55e; }
+.divider { height: 1px; background: #f4dbb0; margin: 4px 0; }
+.grandTotal { display: flex; justify-content: space-between; font-size: 18px; }
+.grandTotal span:first-child { color: #1a1209; font-weight: 600; }
+.grandTotal span:last-child { color: #d4832a; font-family: 'Georgia', serif; font-weight: 700; }
+.shippingNote { font-size: 12px; color: #b86820; margin-top: 2px; }

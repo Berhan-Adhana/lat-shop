@@ -1,0 +1,115 @@
+/* src/app/(account)/account/account.module.css */
+
+.page { min-height: 70vh; background: #fdf8f0; font-family: system-ui, sans-serif; }
+.inner { max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.header { margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid #f4dbb0; }
+.header h1 { font-size: 26px; color: #1a1209; font-family: 'Georgia', serif; font-weight: 400; margin-bottom: 4px; }
+.header p { font-size: 14px; color: #7a3f1d; }
+
+.layout { display: flex; gap: 32px; align-items: flex-start; }
+
+/* Sidebar nav */
+.sidebar { width: 200px; flex-shrink: 0; }
+.sidebarNav { display: flex; flex-direction: column; gap: 2px; }
+.navLink {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 8px; text-decoration: none;
+  font-size: 14px; color: #3d2b14; transition: background 0.15s, color 0.15s;
+}
+.navLink:hover { background: #faefd9; color: #d4832a; }
+.navLinkActive { background: #faefd9; color: #d4832a; font-weight: 600; }
+.navIcon { font-size: 16px; width: 20px; text-align: center; }
+
+/* Main content */
+.main { flex: 1; min-width: 0; }
+
+/* Cards */
+.card { background: #fff; border: 1px solid #f4dbb0; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.cardTitle { font-size: 16px; font-weight: 600; color: #1a1209; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #f4dbb0; }
+
+/* Profile fields */
+.fieldGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.fieldFull { grid-column: 1 / -1; }
+.field label { font-size: 12px; font-weight: 600; color: #3d2b14; text-transform: uppercase; letter-spacing: 0.5px; }
+.field input {
+  padding: 10px 13px; border: 1.5px solid #ecc07f; border-radius: 7px;
+  font-size: 14px; color: #1a1209; background: #fff; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s; font-family: system-ui, sans-serif;
+}
+.field input:focus { border-color: #d4832a; box-shadow: 0 0 0 3px rgba(212,131,42,0.1); }
+.field input:disabled { background: #fdf8f0; color: #7a3f1d; cursor: not-allowed; }
+
+/* Buttons */
+.btnPrimary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 22px; background: linear-gradient(135deg, #d4832a, #b86820);
+  color: #fff; border: none; border-radius: 7px; font-size: 14px;
+  cursor: pointer; font-family: system-ui, sans-serif; font-weight: 500;
+  transition: opacity 0.2s; text-decoration: none;
+}
+.btnPrimary:hover { opacity: 0.88; }
+.btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btnSecondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; background: none; color: #3d2b14;
+  border: 1.5px solid #ecc07f; border-radius: 7px; font-size: 14px;
+  cursor: pointer; font-family: system-ui, sans-serif; text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btnSecondary:hover { border-color: #d4832a; color: #d4832a; }
+
+/* Orders */
+.orderCard {
+  background: #fff; border: 1px solid #f4dbb0; border-radius: 10px;
+  margin-bottom: 14px; overflow: hidden; transition: box-shadow 0.2s;
+}
+.orderCard:hover { box-shadow: 0 4px 16px rgba(212,131,42,0.08); }
+.orderHeader {
+  padding: 16px 20px; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  border-bottom: 1px solid #faefd9;
+}
+.orderId { font-family: monospace; font-weight: 700; color: #1a1209; font-size: 15px; }
+.orderDate { font-size: 12px; color: #7a3f1d; margin-top: 2px; }
+.orderTotal { font-size: 18px; color: #d4832a; font-family: 'Georgia', serif; font-weight: 600; }
+.orderItems { padding: 14px 20px; display: flex; flex-direction: column; gap: 10px; }
+.orderItem { display: flex; align-items: center; gap: 12px; }
+.orderItemImg { width: 44px; height: 44px; border-radius: 6px; background: #faefd9; overflow: hidden; position: relative; flex-shrink: 0; border: 1px solid #f4dbb0; }
+.orderItemName { font-size: 13px; color: #1a1209; font-weight: 500; }
+.orderItemQty { font-size: 12px; color: #7a3f1d; }
+.orderFooter { padding: 12px 20px; background: #fdf8f0; display: flex; align-items: center; justify-content: space-between; }
+
+/* Badge */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badgePending { background: #fef3c7; color: #92400e; }
+.badgeProcessing { background: #dbeafe; color: #1e40af; }
+.badgeShipped { background: #ede9fe; color: #5b21b6; }
+.badgeDelivered { background: #dcfce7; color: #166534; }
+.badgeCancelled { background: #fee2e2; color: #991b1b; }
+.badgeRefunded { background: #f3f4f6; color: #374151; }
+
+/* Wishlist */
+.wishlistGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (min-width: 640px) { .wishlistGrid { grid-template-columns: repeat(3, 1fr); } }
+.wishlistItem { background: #fff; border: 1px solid #f4dbb0; border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s; }
+.wishlistItem:hover { box-shadow: 0 4px 16px rgba(212,131,42,0.08); }
+.wishlistImg { aspect-ratio: 1; background: #faefd9; position: relative; }
+.wishlistBody { padding: 12px; }
+.wishlistName { font-size: 13px; font-weight: 500; color: #1a1209; margin-bottom: 4px; }
+.wishlistPrice { font-size: 14px; color: #d4832a; font-family: 'Georgia', serif; font-weight: 600; margin-bottom: 8px; }
+.wishlistActions { display: flex; gap: 6px; }
+.removeBtn { background: none; border: none; cursor: pointer; font-size: 12px; color: #dc2626; padding: 4px 8px; border-radius: 4px; transition: background 0.15s; }
+.removeBtn:hover { background: #fee2e2; }
+
+/* Empty state */
+.emptyState { padding: 60px 20px; text-align: center; }
+.emptyIcon { font-size: 48px; margin-bottom: 12px; }
+.emptyState h3 { font-size: 18px; color: #1a1209; font-family: 'Georgia', serif; font-weight: 400; margin-bottom: 8px; }
+.emptyState p { font-size: 14px; color: #7a3f1d; margin-bottom: 20px; }
+
+/* Loading */
+.loading { display: flex; align-items: center; justify-content: center; padding: 60px; }
+.spinner { width: 32px; height: 32px; border: 3px solid #f4dbb0; border-top-color: #d4832a; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
