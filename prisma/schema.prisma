@@ -134,36 +134,46 @@ model Product {
   slug        String    @unique
   description String    @db.Text
 
-  // ── Pricing ──────────────────────────────────────────────────────
+  // ── Pricing ──────────────────────────────
   price       Float
   salePrice   Float?
   onSale      Boolean   @default(false)
   saleEndsAt  DateTime?
 
-  // ── Inventory ────────────────────────────────────────────────────
+  // ── Inventory ────────────────────────────
   stock       Int       @default(0)
 
-  // ── Media ────────────────────────────────────────────────────────
-  images      String[]  // Cloudinary URLs
-  videoUrl    String?   // YouTube URL or direct video URL
+  // ── Media ────────────────────────────────
+  images      String[]
+  videoUrl    String?
 
-  // ── Product details (NEW) ────────────────────────────────────────
-  materials   String?   @db.Text  // "Sterling silver, glass beads, cotton cord"
-  careInfo    String?   @db.Text  // "Wipe clean with soft cloth. Avoid water."
-  dimensions  String?             // "Length: 45cm | Pendant: 3cm × 2cm"
-  weight      String?             // "28g"
-  origin      String?             // "Ghana" | "Nigeria" | "Kenya" etc.
+  // ── General product details ───────────────
+  materials   String?   @db.Text
+  careInfo    String?   @db.Text
+  dimensions  String?
+  weight      String?
+  origin      String?
   isHandmade  Boolean   @default(true)
   tags        String[]  @default([])
 
-  // ── Display ──────────────────────────────────────────────────────
+  // ── Book-specific fields ──────────────────
+  author      String?
+  isbn        String?
+  publisher   String?
+  pageCount   Int?
+  language    String?
+  ageRange    String?
+  format      String?
+  edition     String?
+
+  // ── Display ──────────────────────────────
   featured    Boolean   @default(false)
   isActive    Boolean   @default(true)
   categoryId  String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  // ── Relations ────────────────────────────────────────────────────
+  // ── Relations ────────────────────────────
   category    Category    @relation(fields: [categoryId], references: [id])
   orderItems  OrderItem[]
   cartItems   CartItem[]
