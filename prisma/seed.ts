@@ -1,6 +1,5 @@
 // prisma/seed.ts
-// Run with: npm run db:seed
-// Seeds the database with initial categories, shipping zones, and an admin user
+// Run: npm run db:seed
 
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -10,9 +9,8 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // ── Admin User ──────────────────────────────
+  // ── Admin user ──────────────────────────────────────────────────────
   const hashedPassword = await bcrypt.hash("admin123!", 12);
-
   const admin = await prisma.user.upsert({
     where: { email: "admin@latshop.com" },
     update: {},
@@ -23,9 +21,9 @@ async function main() {
       role: "ADMIN",
     },
   });
-  console.log("✅ Admin user created:", admin.email);
+  console.log("✅ Admin user:", admin.email);
 
-  // ── Categories ──────────────────────────────
+  // ── Categories ──────────────────────────────────────────────────────
   const categories = [
     {
       name: "African Gifts",
@@ -52,31 +50,28 @@ async function main() {
       slug: "gift-sets",
       description: "Curated gift sets for special occasions",
     },
+    // ── NEW ──
+    {
+      name: "Books",
+      slug: "books",
+      description:
+        "African literature, history, culture, and children's books celebrating African heritage",
+    },
   ];
 
   for (const cat of categories) {
     await prisma.category.upsert({
       where: { slug: cat.slug },
-      update: {},
+      update: { description: cat.description },
       create: cat,
     });
   }
-  console.log("✅ Categories created:", categories.length);
+  console.log("✅ Categories seeded:", categories.length);
 
-  // ── Shipping Zones ──────────────────────────
-  const shippingZones = [
-    {
-      name: "Canada",
-      countries: ["CA"],
-      rate: 12.0,
-      freeOver: 100.0,
-    },
-    {
-      name: "United States",
-      countries: ["US"],
-      rate: 18.0,
-      freeOver: 150.0,
-    },
+  // ── Shipping zones ──────────────────────────────────────────────────
+  const zones = [
+    { name: "Canada", countries: ["CA"], rate: 12.0, freeOver: 100.0 },
+    { name: "United States", countries: ["US"], rate: 18.0, freeOver: 150.0 },
     {
       name: "Europe",
       countries: ["GB", "FR", "DE", "IT", "ES", "NL", "BE", "PT", "SE", "NO"],
@@ -85,14 +80,15 @@ async function main() {
     },
   ];
 
-  for (const zone of shippingZones) {
-    await prisma.shippingZone.create({ data: zone }).catch(() => {
-      // already exists, skip
+  for (const zone of zones) {
+    const existing = await prisma.shippingZone.findFirst({
+      where: { name: zone.name },
     });
+    if (!existing) await prisma.shippingZone.create({ data: zone });
   }
-  console.log("✅ Shipping zones created:", shippingZones.length);
+  console.log("✅ Shipping zones seeded");
 
-  // ── Welcome Coupon ───────────────────────────
+  // ── Welcome coupon ──────────────────────────────────────────────────
   await prisma.coupon.upsert({
     where: { code: "WELCOME10" },
     update: {},
@@ -106,14 +102,10 @@ async function main() {
       isActive: true,
     },
   });
-  console.log("✅ Welcome coupon created: WELCOME10");
+  console.log("✅ Welcome coupon: WELCOME10");
 
   console.log("\n🎉 Seeding complete!");
-  console.log("────────────────────────────");
-  console.log("Admin login:");
-  console.log("  Email:    admin@latshop.com");
-  console.log("  Password: admin123!");
-  console.log("────────────────────────────");
+  console.log("Admin: admin@latshop.com / admin123!");
 }
 
 main()
@@ -121,6 +113,4 @@ main()
     console.error(e);
     process.exit(1);
   })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+  .finally(() => prisma.$disconnect());

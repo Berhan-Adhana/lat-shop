@@ -1,11 +1,10 @@
 // src/app/(account)/account/page.tsx
 "use client";
 
-import { useState } from "react";
+import AccountNav from "@/components/account/AccountNav";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import AccountNav from "@/components/account/AccountNav";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import s from "./account.module.css";
 
@@ -16,17 +15,13 @@ export default function AccountPage() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) router.push("/login?callbackUrl=/account");
+    if (!isLoading && !isAuthenticated)
+      router.push("/login?callbackUrl=/account");
   }, [isAuthenticated, isLoading, router]);
 
   useEffect(() => {
-    if (user) {
-      setForm({
-        name: user.name ?? "",
-        email: user.email ?? "",
-        phone: "",
-      });
-    }
+    if (user)
+      setForm({ name: user.name ?? "", email: user.email ?? "", phone: "" });
   }, [user]);
 
   const handleSave = async () => {
@@ -46,9 +41,14 @@ export default function AccountPage() {
     }
   };
 
-  if (isLoading) return (
-    <div className={s.page}><div className={s.loading}><div className={s.spinner} /></div></div>
-  );
+  if (isLoading)
+    return (
+      <div className={s.page}>
+        <div className={s.loading}>
+          <div className={s.spinner} />
+        </div>
+      </div>
+    );
 
   return (
     <div className={s.page}>
@@ -57,11 +57,13 @@ export default function AccountPage() {
           <h1>My Account</h1>
           <p>Manage your profile and preferences</p>
         </div>
-        <div className={s.layout}>
-          <AccountNav />
-          <div className={s.main}>
 
-            {/* Profile */}
+        <AccountNav />
+
+        <div className={s.layout}>
+          <div className={s.sidebar} />{" "}
+          {/* spacer — sidebar is inside AccountNav */}
+          <div className={s.main}>
             <div className={s.card}>
               <h2 className={s.cardTitle}>Profile Information</h2>
               <div className={s.fieldGrid}>
@@ -77,7 +79,9 @@ export default function AccountPage() {
                   <label>Phone</label>
                   <input
                     value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
                     placeholder="+1 (403) 000-0000"
                   />
                 </div>
@@ -86,35 +90,32 @@ export default function AccountPage() {
                   <input value={form.email} disabled />
                 </div>
               </div>
-              <div style={{ marginTop: 18 }}>
-                <button className={s.btnPrimary} onClick={handleSave} disabled={saving}>
+              <div style={{ marginTop: 16 }}>
+                <button
+                  className={s.btnPrimary}
+                  onClick={handleSave}
+                  disabled={saving}
+                >
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </div>
 
-            {/* Security */}
             <div className={s.card}>
               <h2 className={s.cardTitle}>Security</h2>
-              <p style={{ fontSize: 14, color: "#7a3f1d", marginBottom: 16 }}>
-                Change your password or manage your account security.
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "#7a3f1d",
+                  marginBottom: 14,
+                  lineHeight: 1.5,
+                }}
+              >
+                Change your password to keep your account secure.
               </p>
               <a href="/forgot-password" className={s.btnSecondary}>
                 Change Password
               </a>
-            </div>
-
-            {/* Danger zone */}
-            <div className={s.card} style={{ borderColor: "#fca5a5" }}>
-              <h2 className={s.cardTitle} style={{ color: "#dc2626" }}>Account</h2>
-              <p style={{ fontSize: 14, color: "#7a3f1d", marginBottom: 16 }}>
-                Your account data including orders and wishlist is saved securely.
-              </p>
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <span style={{ fontSize: 13, color: "#7a3f1d" }}>
-                  Member since: {user ? new Date().getFullYear() : "—"}
-                </span>
-              </div>
             </div>
           </div>
         </div>

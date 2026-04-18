@@ -7,9 +7,9 @@ import { useAuth } from "@/hooks/useAuth";
 import s from "@/app/(account)/account/account.module.css";
 
 const links = [
-  { href: "/account", label: "My Account", icon: "👤", exact: true },
-  { href: "/account/orders", label: "My Orders", icon: "🛍️" },
-  { href: "/account/wishlist", label: "Wishlist", icon: "❤️" },
+  { href: "/account",           label: "Account",  icon: "👤", exact: true },
+  { href: "/account/orders",    label: "Orders",   icon: "🛍️" },
+  { href: "/account/wishlist",  label: "Wishlist", icon: "❤️" },
 ];
 
 export default function AccountNav() {
@@ -20,23 +20,52 @@ export default function AccountNav() {
     exact ? pathname === href : pathname.startsWith(href);
 
   return (
-    <aside className={s.sidebar}>
-      <nav className={s.sidebarNav}>
+    <>
+      {/* ── Mobile: horizontal tab strip ── */}
+      <div className={s.mobileNav}>
         {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className={`${s.navLink} ${isActive(link.href, link.exact) ? s.navLinkActive : ""}`}
+            className={`${s.mobileNavBtn} ${isActive(link.href, link.exact) ? s.mobileNavBtnActive : ""}`}
           >
-            <span className={s.navIcon}>{link.icon}</span>
+            <span className={s.mobileNavIcon}>{link.icon}</span>
             {link.label}
           </Link>
         ))}
-        <button onClick={logout} className={s.navLink} style={{ border: "none", background: "none", cursor: "pointer", color: "#dc2626", width: "100%", textAlign: "left" }}>
-          <span className={s.navIcon}>🚪</span>
+        <button
+          onClick={logout}
+          className={s.mobileNavBtn}
+          style={{ color: "#dc2626", borderColor: "#fca5a5" }}
+        >
+          <span className={s.mobileNavIcon}>🚪</span>
           Sign Out
         </button>
-      </nav>
-    </aside>
+      </div>
+
+      {/* ── Desktop: sidebar ── */}
+      <aside className={s.sidebar}>
+        <nav className={s.sidebarNav}>
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`${s.navLink} ${isActive(link.href, link.exact) ? s.navLinkActive : ""}`}
+            >
+              <span className={s.navIcon}>{link.icon}</span>
+              {link.label}
+            </Link>
+          ))}
+          <button
+            onClick={logout}
+            className={s.navLink}
+            style={{ color: "#dc2626" }}
+          >
+            <span className={s.navIcon}>🚪</span>
+            Sign Out
+          </button>
+        </nav>
+      </aside>
+    </>
   );
 }

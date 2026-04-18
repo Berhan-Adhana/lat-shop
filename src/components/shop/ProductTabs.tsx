@@ -5,167 +5,177 @@ import { useState } from "react";
 
 interface Props {
   description: string;
+  // General fields
   materials?: string | null;
   careInfo?: string | null;
   dimensions?: string | null;
   weight?: string | null;
   origin?: string | null;
   isHandmade?: boolean;
+  // Book fields
+  author?: string | null;
+  isbn?: string | null;
+  publisher?: string | null;
+  pageCount?: number | null;
+  language?: string | null;
+  ageRange?: string | null;
+  format?: string | null;
+  edition?: string | null;
+  // Category slug to detect books
+  categorySlug?: string | null;
 }
-
-const tabs = [
-  { id: "overview",  label: "Overview" },
-  { id: "details",   label: "Materials & Care" },
-  { id: "shipping",  label: "Shipping & Returns" },
-];
 
 export default function ProductTabs({
   description, materials, careInfo, dimensions, weight, origin, isHandmade,
+  author, isbn, publisher, pageCount, language, ageRange, format, edition,
+  categorySlug,
 }: Props) {
+  const isBook = categorySlug === "books";
   const [active, setActive] = useState("overview");
+
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "details",  label: isBook ? "Book Info" : "Materials & Care" },
+    { id: "shipping", label: "Shipping & Returns" },
+  ];
+
+  const tabBtn = (id: string, label: string) => (
+    <button
+      key={id}
+      onClick={() => setActive(id)}
+      style={{
+        padding: "10px 18px", fontSize: 13, fontFamily: "system-ui, sans-serif",
+        fontWeight: active === id ? 600 : 400,
+        color: active === id ? "#d4832a" : "#7a3f1d",
+        background: "none", border: "none",
+        borderBottom: active === id ? "2px solid #d4832a" : "2px solid transparent",
+        cursor: "pointer", transition: "color 0.2s", marginBottom: -1,
+        letterSpacing: "0.3px",
+      }}
+    >
+      {label}
+    </button>
+  );
 
   return (
     <div style={{ marginTop: 4 }}>
       {/* Tab bar */}
-      <div style={{
-        display: "flex",
-        borderBottom: "1px solid #f4dbb0",
-        marginBottom: 20,
-        gap: 0,
-      }}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActive(tab.id)}
-            style={{
-              padding: "10px 18px",
-              fontSize: 13,
-              fontFamily: "system-ui, sans-serif",
-              fontWeight: active === tab.id ? 600 : 400,
-              color: active === tab.id ? "#d4832a" : "#7a3f1d",
-              background: "none",
-              border: "none",
-              borderBottom: active === tab.id ? "2px solid #d4832a" : "2px solid transparent",
-              cursor: "pointer",
-              transition: "color 0.2s",
-              marginBottom: -1,
-              letterSpacing: "0.3px",
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div style={{ display: "flex", borderBottom: "1px solid #f4dbb0", marginBottom: 20 }}>
+        {tabs.map((t) => tabBtn(t.id, t.label))}
       </div>
-
-      {/* Tab content */}
 
       {/* ── Overview ── */}
       {active === "overview" && (
-        <div style={{ animation: "fadeIn 0.2s ease" }}>
-          <p style={{ fontSize: 15, color: "#3d2b14", lineHeight: 1.85, fontFamily: "system-ui, sans-serif" }}>
+        <div>
+          <p style={{ fontSize: 15, color: "#3d2b14", lineHeight: 1.85, fontFamily: "system-ui" }}>
             {description}
           </p>
 
-          {/* Quick specs row */}
-          {(origin || isHandmade || dimensions || weight) && (
-            <div style={{
-              display: "flex", flexWrap: "wrap", gap: 10, marginTop: 20,
-              paddingTop: 20, borderTop: "1px solid #faefd9",
-            }}>
-              {isHandmade && (
-                <Chip icon="🤲" label="Handcrafted" />
-              )}
-              {origin && (
-                <Chip icon="📍" label={`Origin: ${origin}`} />
-              )}
-              {dimensions && (
-                <Chip icon="📐" label={dimensions} />
-              )}
-              {weight && (
-                <Chip icon="⚖️" label={weight} />
-              )}
-            </div>
-          )}
+          {/* Quick chips */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 20, paddingTop: 16, borderTop: "1px solid #faefd9" }}>
+            {isBook && author  && <Chip icon="✍️" label={`By ${author}`} />}
+            {isBook && format  && <Chip icon="📖" label={format} />}
+            {isBook && language && <Chip icon="🌐" label={language} />}
+            {isBook && ageRange && <Chip icon="👤" label={ageRange} />}
+            {isBook && pageCount && <Chip icon="📄" label={`${pageCount} pages`} />}
+            {!isBook && isHandmade && <Chip icon="🤲" label="Handcrafted" />}
+            {origin  && <Chip icon="📍" label={`Origin: ${origin}`} />}
+            {dimensions && <Chip icon="📐" label={dimensions} />}
+            {weight  && <Chip icon="⚖️" label={weight} />}
+          </div>
         </div>
       )}
 
-      {/* ── Materials & Care ── */}
+      {/* ── Book Info / Materials & Care ── */}
       {active === "details" && (
-        <div style={{ animation: "fadeIn 0.2s ease", display: "flex", flexDirection: "column", gap: 20 }}>
-          {materials ? (
-            <DetailBlock
-              icon="🧵"
-              title="Materials"
-              content={materials}
-            />
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {isBook ? (
+            <>
+              {/* Book details table */}
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                  <span style={{ fontSize: 18 }}>📚</span>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui" }}>
+                    Book Information
+                  </h4>
+                </div>
+                <div style={{ border: "1px solid #f4dbb0", borderRadius: 10, overflow: "hidden" }}>
+                  {[
+                    author     && { label: "Author",        value: author },
+                    publisher  && { label: "Publisher",     value: publisher },
+                    format     && { label: "Format",        value: format },
+                    pageCount  && { label: "Pages",         value: `${pageCount} pages` },
+                    language   && { label: "Language",      value: language },
+                    ageRange   && { label: "Age Range",     value: ageRange },
+                    edition    && { label: "Edition",       value: edition },
+                    origin     && { label: "Author Origin", value: origin },
+                    dimensions && { label: "Dimensions",    value: dimensions },
+                    weight     && { label: "Weight",        value: weight },
+                    isbn       && { label: "ISBN",          value: isbn },
+                  ].filter(Boolean).map((row: any, i, arr) => (
+                    <div key={row.label} style={{
+                      display: "flex", padding: "11px 16px",
+                      background: i % 2 === 0 ? "#fdf8f0" : "#fff",
+                      borderBottom: i < arr.length - 1 ? "1px solid #faefd9" : "none",
+                    }}>
+                      <span style={{ fontSize: 13, color: "#7a3f1d", fontFamily: "system-ui", width: 140, flexShrink: 0 }}>
+                        {row.label}
+                      </span>
+                      <span style={{ fontSize: 13, color: "#1a1209", fontFamily: "system-ui", fontWeight: 500 }}>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
           ) : (
-            <p style={{ fontSize: 14, color: "#b86820", fontFamily: "system-ui", fontStyle: "italic" }}>
-              Material details will be added soon.
-            </p>
-          )}
-
-          {careInfo && (
-            <DetailBlock
-              icon="✨"
-              title="Care Instructions"
-              content={careInfo}
-            />
-          )}
-
-          {(dimensions || weight || origin) && (
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                <span style={{ fontSize: 18 }}>📋</span>
-                <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui" }}>
-                  Specifications
-                </h4>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 0, border: "1px solid #f4dbb0", borderRadius: 10, overflow: "hidden" }}>
-                {[
-                  origin     && { label: "Country of Origin", value: origin },
-                  dimensions && { label: "Dimensions",        value: dimensions },
-                  weight     && { label: "Weight",            value: weight },
-                  { label: "Handcrafted", value: isHandmade ? "Yes — made by hand" : "Machine made" },
-                ].filter(Boolean).map((row: any, i, arr) => (
-                  <div key={row.label} style={{
-                    display: "flex",
-                    padding: "11px 16px",
-                    background: i % 2 === 0 ? "#fdf8f0" : "#fff",
-                    borderBottom: i < arr.length - 1 ? "1px solid #faefd9" : "none",
-                  }}>
-                    <span style={{ fontSize: 13, color: "#7a3f1d", fontFamily: "system-ui", width: 160, flexShrink: 0 }}>
-                      {row.label}
-                    </span>
-                    <span style={{ fontSize: 13, color: "#1a1209", fontFamily: "system-ui", fontWeight: 500 }}>
-                      {row.value}
-                    </span>
+            <>
+              {materials ? (
+                <DetailBlock icon="🧵" title="Materials" content={materials} />
+              ) : (
+                <p style={{ fontSize: 14, color: "#b86820", fontFamily: "system-ui", fontStyle: "italic" }}>
+                  Material details coming soon.
+                </p>
+              )}
+              {careInfo && <DetailBlock icon="✨" title="Care Instructions" content={careInfo} />}
+              {(dimensions || weight || origin) && (
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                    <span style={{ fontSize: 18 }}>📋</span>
+                    <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui" }}>Specifications</h4>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <div style={{ border: "1px solid #f4dbb0", borderRadius: 10, overflow: "hidden" }}>
+                    {[
+                      origin     && { label: "Country of Origin", value: origin },
+                      dimensions && { label: "Dimensions",        value: dimensions },
+                      weight     && { label: "Weight",            value: weight },
+                      { label: "Handcrafted", value: isHandmade ? "Yes — made by hand" : "Machine made" },
+                    ].filter(Boolean).map((row: any, i, arr) => (
+                      <div key={row.label} style={{
+                        display: "flex", padding: "11px 16px",
+                        background: i % 2 === 0 ? "#fdf8f0" : "#fff",
+                        borderBottom: i < arr.length - 1 ? "1px solid #faefd9" : "none",
+                      }}>
+                        <span style={{ fontSize: 13, color: "#7a3f1d", fontFamily: "system-ui", width: 160, flexShrink: 0 }}>{row.label}</span>
+                        <span style={{ fontSize: 13, color: "#1a1209", fontFamily: "system-ui", fontWeight: 500 }}>{row.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
 
       {/* ── Shipping & Returns ── */}
       {active === "shipping" && (
-        <div style={{ animation: "fadeIn 0.2s ease", display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {[
-            {
-              icon: "🇨🇦",
-              title: "Canada",
-              desc: "CA$12 flat rate · Free over CA$100 · 3–7 business days via Canada Post",
-            },
-            {
-              icon: "🇺🇸",
-              title: "United States",
-              desc: "CA$18 flat rate · Free over CA$150 · 7–14 business days",
-            },
-            {
-              icon: "🇪🇺",
-              title: "Europe",
-              desc: "CA$30 flat rate · Free over CA$200 · 10–21 business days",
-            },
+            { icon: "🇨🇦", title: "Canada",         desc: "CA$12 flat · Free over CA$100 · 3–7 business days" },
+            { icon: "🇺🇸", title: "United States",   desc: "CA$18 flat · Free over CA$150 · 7–14 business days" },
+            { icon: "🇪🇺", title: "Europe",          desc: "CA$30 flat · Free over CA$200 · 10–21 business days" },
           ].map((zone) => (
             <div key={zone.title} style={{
               display: "flex", gap: 14, alignItems: "flex-start",
@@ -174,45 +184,19 @@ export default function ProductTabs({
             }}>
               <span style={{ fontSize: 22, flexShrink: 0 }}>{zone.icon}</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui", marginBottom: 3 }}>
-                  {zone.title}
-                </p>
-                <p style={{ fontSize: 13, color: "#7a3f1d", fontFamily: "system-ui", lineHeight: 1.5 }}>
-                  {zone.desc}
-                </p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui", marginBottom: 3 }}>{zone.title}</p>
+                <p style={{ fontSize: 13, color: "#7a3f1d", fontFamily: "system-ui", lineHeight: 1.5 }}>{zone.desc}</p>
               </div>
             </div>
           ))}
-
-          <div style={{
-            padding: "14px 16px",
-            background: "#faefd9",
-            border: "1px solid #ecc07f",
-            borderRadius: 10,
-            fontSize: 13,
-            color: "#3d2b14",
-            fontFamily: "system-ui",
-            lineHeight: 1.6,
-          }}>
+          <div style={{ padding: "14px 16px", background: "#faefd9", border: "1px solid #ecc07f", borderRadius: 10, fontSize: 13, color: "#3d2b14", fontFamily: "system-ui", lineHeight: 1.6 }}>
             <strong style={{ display: "block", marginBottom: 4 }}>↩️ 30-Day Returns</strong>
-            Not happy? Return unused items within 30 days for a full refund.{" "}
-            <a href="/returns" style={{ color: "#d4832a", textDecoration: "none" }}>
-              Full return policy →
-            </a>
+            Not satisfied? Return unused items within 30 days for a full refund.{" "}
+            <a href="/returns" style={{ color: "#d4832a", textDecoration: "none" }}>Full policy →</a>
           </div>
-
-          <div style={{
-            padding: "14px 16px",
-            background: "#f0fdf4",
-            border: "1px solid #bbf7d0",
-            borderRadius: 10,
-            fontSize: 13,
-            color: "#166534",
-            fontFamily: "system-ui",
-            lineHeight: 1.6,
-          }}>
-            <strong>📦 All orders ship from Calgary, Canada</strong>
-            <br />Orders are packed within 1–2 business days. Tracking included.
+          <div style={{ padding: "14px 16px", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 10, fontSize: 13, color: "#166534", fontFamily: "system-ui" }}>
+            <strong>📦 Ships from Calgary, Canada</strong>
+            <br />Packed within 1–2 business days. Tracking included.
           </div>
         </div>
       )}
@@ -227,7 +211,6 @@ export default function ProductTabs({
   );
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────
 function Chip({ icon, label }: { icon: string; label: string }) {
   return (
     <span style={{
@@ -246,15 +229,9 @@ function DetailBlock({ icon, title, content }: { icon: string; title: string; co
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
         <span style={{ fontSize: 18 }}>{icon}</span>
-        <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui" }}>
-          {title}
-        </h4>
+        <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1a1209", fontFamily: "system-ui" }}>{title}</h4>
       </div>
-      <p style={{
-        fontSize: 14, color: "#3d2b14", lineHeight: 1.8,
-        fontFamily: "system-ui", paddingLeft: 26,
-        whiteSpace: "pre-line",
-      }}>
+      <p style={{ fontSize: 14, color: "#3d2b14", lineHeight: 1.8, fontFamily: "system-ui", paddingLeft: 26, whiteSpace: "pre-line" }}>
         {content}
       </p>
     </div>

@@ -29,12 +29,23 @@ export default function Navbar() {
     setUserMenuOpen(false);
   }, [pathname]);
 
+  // Close menu on outside click
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (!(e.target as Element).closest("nav")) setMenuOpen(false);
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [menuOpen]);
+
   const navLinks = [
-    { href: "/shop",             label: "All Products" },
-    { href: "/shop/jewelry",     label: "Jewelry" },
-    { href: "/shop/african-gifts", label: "African Gifts" },
-    { href: "/shop/accessories", label: "Accessories" },
-    { href: "/about",            label: "About" },
+    { href: "/shop",               label: "All" },
+    { href: "/shop/jewelry",       label: "Jewelry" },
+    { href: "/shop/african-gifts", label: "Gifts" },
+    { href: "/shop/accessories",   label: "Accessories" },
+    { href: "/shop/books",         label: "📚 Books" },
+    { href: "/about",              label: "About" },
   ];
 
   const isActive = (href: string) =>
@@ -44,11 +55,8 @@ export default function Navbar() {
     <>
       <nav className={`${s.navbar} ${scrolled ? s.scrolled : ""}`}>
         <div className={s.navInner}>
-
-          {/* ── Logo ── */}
           <Logo size="sm" dark />
 
-          {/* ── Desktop links ── */}
           <ul className={s.navLinks}>
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -62,9 +70,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ── Right actions ── */}
           <div className={s.navActions}>
-            {/* Cart */}
             <button className={s.iconBtn} onClick={openCart} aria-label="Open cart">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -76,7 +82,6 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* User */}
             {isAuthenticated ? (
               <div className={s.userMenuWrap}>
                 <button className={s.userBtn} onClick={() => setUserMenuOpen(!userMenuOpen)} aria-label="User menu">
@@ -93,13 +98,9 @@ export default function Navbar() {
                       <Link href="/account/orders"   className={s.dropdownLink}>My Orders</Link>
                       <Link href="/account/wishlist" className={s.dropdownLink}>Wishlist</Link>
                       {isAdmin && (
-                        <Link href="/admin" className={`${s.dropdownLink} ${s.adminLink}`}>
-                          ⚡ Admin Panel
-                        </Link>
+                        <Link href="/admin" className={`${s.dropdownLink} ${s.adminLink}`}>⚡ Admin Panel</Link>
                       )}
-                      <button onClick={logout} className={`${s.dropdownLink} ${s.logoutBtn}`}>
-                        Sign Out
-                      </button>
+                      <button onClick={logout} className={`${s.dropdownLink} ${s.logoutBtn}`}>Sign Out</button>
                     </div>
                   </div>
                 )}
@@ -111,12 +112,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Mobile hamburger */}
-            <button
-              className={s.hamburger}
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
+            <button className={s.hamburger} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
               <span className={menuOpen ? s.hamburgerOpen : ""} />
               <span className={menuOpen ? s.hamburgerOpen : ""} />
               <span className={menuOpen ? s.hamburgerOpen : ""} />
@@ -124,15 +120,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className={s.mobileMenu}>
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`${s.mobileLink} ${isActive(link.href) ? s.mobileLinkActive : ""}`}
-              >
+              <Link key={link.href} href={link.href}
+                className={`${s.mobileLink} ${isActive(link.href) ? s.mobileLinkActive : ""}`}>
                 {link.label}
               </Link>
             ))}
@@ -155,9 +147,7 @@ export default function Navbar() {
         )}
       </nav>
 
-      {userMenuOpen && (
-        <div className={s.overlay} onClick={() => setUserMenuOpen(false)} />
-      )}
+      {userMenuOpen && <div className={s.overlay} onClick={() => setUserMenuOpen(false)} />}
     </>
   );
 }
